@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QComboBox
+from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QComboBox, QLabel
 from PyQt5.QtCore import QCoreApplication
 from PyQt5 import QtGui
 from PyQt5 import QtCore
@@ -24,31 +24,52 @@ class Example(QWidget):
 
         self.initUI()
 
-    def start_tem(self):
-        self.plain.insertPlainText("Пульт управления ТЕМ-камерой:\nВывод информации от внутренних подсистем:\n")
-
     def button1(self):
-        self.plain.insertPlainText("There is function numba uan.\n")
+        self.commandstroke.clear()
+        self.commandstroke.setText("There is function numba uan.\n")
+
 
     def button2(self):
-        self.plain.insertPlainText("Func num 2.\n")
+        self.commandstroke.clear()
+        self.commandstroke.setText("Func num 2.\n")
 
     def button3(self):
-        self.plain.insertPlainText("3.\n")
+        self.commandstroke.clear()
+        self.commandstroke.setText("3.\n")
 
     def button4(self):
-        self.plain.insertPlainText("This is the last func.\n")
+        self.commandstroke.clear()
+        self.commandstroke.setText("This is the last func.\n")
 
     def initUI(self):
-        # Add text field
-        self.plain = QPlainTextEdit(self)
-        self.plain.insertPlainText("Пульт управления ТЕМ-камерой:\nВывод информации от внутренних подсистем:\n")
-        self.plain.insertPlainText("system ON:\n")
-        self.plain.move(200, 20)
-        self.plain.resize(400, 200)
+        self.commandstroke = QLabel(self)
+        self.commandstroke.setAlignment(QtCore.Qt.AlignRight)
+        self.commandstroke.setText("Program started...")
+        self.commandstroke.move(0, 10)
+        self.commandstroke.resize(635, 25)
 
-        qbtn1 = QPushButton('Func start_tem, inside', self)
-        qbtn1.clicked.connect(self.start_tem)
+        self.patternlabel = QLabel(self)
+        self.patternlabel.setText("Шаблон: ")
+        self.patternlabel.move(200, 50)
+        self.patternlabel.setFont(QtGui.QFont("Times", 24, QtGui.QFont.Bold))
+
+        patterncombo = QComboBox(self)
+        patterncombo.resize(150, 26)
+        patterncombo.move(355, 60)
+        patterncombo.addItems(x)
+
+        self.listslabel = QLabel(self)
+        self.listslabel.setText("Список: ")
+        self.listslabel.move(217, 150)
+        self.listslabel.setFont(QtGui.QFont("Times", 24, QtGui.QFont.Bold))
+
+        listscombo = QComboBox(self)
+        listscombo.resize(150, 26)
+        listscombo.move(355, 160)
+        listscombo.addItems(x)
+
+        qbtn1 = QPushButton('Function button1', self)
+        qbtn1.clicked.connect(self.button1)
         qbtn1.move(60, 50)
 
         qbtn2 = QPushButton('Function button2', self)
@@ -66,23 +87,21 @@ class Example(QWidget):
         combo = QComboBox(self)
         combo.move(60, 80)
         combo.addItems(x)
-        
+
         qbtn5 = QPushButton('Выход', self)
         qbtn5.clicked.connect(QCoreApplication.instance().quit)
         qbtn5.move(60, 200)
 
 
+        self.setFixedSize(640, 480)
+        self.setWindowTitle('Печать дипломов')
 
-        #self.setGeometry(300, 300, 250, 150)
-        self.setWindowTitle('Пульт управления TEM-камерой')
-        # привязка к разрешению экрана
-        desktop = QApplication.desktop()
-        screen01 = desktop.primaryScreen() # у меня 2 монитора, определяем главный
-        # получаем разрешение нужного монитора
-        res = desktop.screenGeometry(screen01)
-        # устанавливаем размер откна по размеру монитора
-        self.setFixedSize(res.width(), res.height())
-        # перемещаем окно чтобы оно заняло весь монитор
+        # self.setStyleSheet("background-color:")
+        #
+        # desktop = QApplication.desktop()
+        # screen01 = desktop.primaryScreen()
+        # res = desktop.screenGeometry(screen01)
+
         self.move(0, 0)
         self.show()
 
