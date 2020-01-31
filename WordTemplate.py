@@ -2,7 +2,7 @@ from docxtpl import DocxTemplate
 from pathlib import Path
 import configparser
 import os
-import shutil
+from shutil import rmtree, move
 from docxcompose.composer import Composer
 from docx import Document as Document_compose
 
@@ -71,6 +71,3 @@ def combine_all_docx(filename_master, files_list):
         doc_temp = Document_compose(files_list[i])
         composer.append(doc_temp)
     composer.save("combined_file.docx")
-
-
-combine_all_docx(filename_master=Path('diplomas/diploma_0.docx'), files_list=single_diploma)

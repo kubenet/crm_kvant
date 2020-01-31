@@ -36,14 +36,12 @@ class Example(QWidget):
     def button3(self):
         self.commandLabel.clear()
         self.commandLabel.setText("3.\n")
+        self.printedLable.setText("Напечатано дипломов: i")
 
-    def button4(self):
-        self.commandLabel.clear()
-        self.commandLabel.setText("This is the last func.\n")
 
     def initUI(self):
         self.commandLabel = QLabel(self)
-        self.commandLabel.setText("Command line")
+        self.commandLabel.setText("Command line. Program started...")
         self.commandLabel.setAlignment(Qt.AlignRight | Qt.AlignCenter)
         self.commandLabel.resize(635, 25)
 
@@ -53,16 +51,16 @@ class Example(QWidget):
         self.patternLabel.move(5, 45)
         self.patternLabel.resize(125, 32)
         self.patternLabel.setAlignment(Qt.AlignRight)
-        self.patternLabel.setFont(QtGui.QFont('SansSerif', 20))
+        self.patternLabel.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
         patternCombo = QComboBox(self)
         patternCombo.resize(100, 25)
-        patternCombo.move(150, 55)
+        patternCombo.move(135, 55)
         patternCombo.addItems(patternlist)
 
         pattern_acceptButton = QPushButton('√', self)
         pattern_acceptButton.clicked.connect(self.button1)
-        pattern_acceptButton.move(270, 55)
+        pattern_acceptButton.move(255, 55)
         pattern_acceptButton.resize(26, 26)
 
 
@@ -71,17 +69,23 @@ class Example(QWidget):
         self.groupLabel.move(5, 190)
         self.groupLabel.resize(125, 32)
         self.groupLabel.setAlignment(Qt.AlignRight)
-        self.groupLabel.setFont(QtGui.QFont('SansSerif', 20))
+        self.groupLabel.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
         groupCombo = QComboBox(self)
-        groupCombo.move(150, 200)
+        groupCombo.move(135, 200)
         groupCombo.addItems(grouplist)
         groupCombo.resize(100, 25)
 
         group_acceptButton = QPushButton('√', self)
         group_acceptButton.clicked.connect(self.button2)
-        group_acceptButton.move(270, 200)
+        group_acceptButton.move(255, 200)
         group_acceptButton.resize(26, 26)
+
+
+        self.printedLable = QLabel(self)
+        self.printedLable.move(20, 280)
+        self.printedLable.resize(360, 34)
+        self.printedLable.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
 
         printButton = QPushButton('Function button3', self)
