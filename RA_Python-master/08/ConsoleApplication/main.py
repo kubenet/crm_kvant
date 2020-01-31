@@ -1,7 +1,7 @@
 import argparse
 
-from ConsoleApplication.Commands.CommandFactory import AbstractCommand
-from ConsoleApplication.Commands.CommandFactory import CommandFactory
+from Commands.CommandFactory import AbstractCommand
+from Commands.CommandFactory import CommandFactory
 
 
 if __name__ == '__main__':

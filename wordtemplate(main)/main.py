@@ -60,8 +60,6 @@ for gruppa in spiski:
         i += 1
     f.close()
 
-
-print(single_diploma)
 del single_diploma[0]
 
 

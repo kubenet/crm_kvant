@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QComboBox
-from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QComboBox, QLabel
+from PyQt5.QtCore import QCoreApplication, Qt
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 from PyQt5.Qt import QApplication, QClipboard
@@ -14,7 +14,8 @@ import time
 import serial
 import serial.tools.list_ports
 
-x=['1, 2, 3', 'stroke']
+patternlist = ['Базовый', 'Проектный']
+grouplist = ['Космо', 'Робо', 'Био', 'Жора', 'etc.']
 
 
 class Example(QWidget):
@@ -24,66 +25,79 @@ class Example(QWidget):
 
         self.initUI()
 
-    def start_tem(self):
-        self.plain.insertPlainText("Пульт управления ТЕМ-камерой:\nВывод информации от внутренних подсистем:\n")
-
     def button1(self):
-        self.plain.insertPlainText("There is function numba uan.\n")
+        self.commandLabel.clear()
+        self.commandLabel.setText("There is function numba uan.\n")
 
     def button2(self):
-        self.plain.insertPlainText("Func num 2.\n")
+        self.commandLabel.clear()
+        self.commandLabel.setText("Func num 2.\n")
 
     def button3(self):
-        self.plain.insertPlainText("3.\n")
+        self.commandLabel.clear()
+        self.commandLabel.setText("3.\n")
 
     def button4(self):
-        self.plain.insertPlainText("This is the last func.\n")
+        self.commandLabel.clear()
+        self.commandLabel.setText("This is the last func.\n")
 
     def initUI(self):
-        # Add text field
-        self.plain = QPlainTextEdit(self)
-        self.plain.insertPlainText("Пульт управления ТЕМ-камерой:\nВывод информации от внутренних подсистем:\n")
-        self.plain.insertPlainText("system ON:\n")
-        self.plain.move(200, 20)
-        self.plain.resize(400, 200)
+        self.commandLabel = QLabel(self)
+        self.commandLabel.setText("Command line")
+        self.commandLabel.setAlignment(Qt.AlignRight | Qt.AlignCenter)
+        self.commandLabel.resize(635, 25)
 
-        qbtn1 = QPushButton('Func start_tem, inside', self)
-        qbtn1.clicked.connect(self.start_tem)
-        qbtn1.move(60, 50)
 
-        qbtn2 = QPushButton('Function button2', self)
-        qbtn2.clicked.connect(self.button2)
-        qbtn2.move(60, 110)
+        self.patternLabel = QLabel(self)
+        self.patternLabel.setText('Pattern: ')
+        self.patternLabel.move(5, 45)
+        self.patternLabel.resize(125, 32)
+        self.patternLabel.setAlignment(Qt.AlignRight)
+        self.patternLabel.setFont(QtGui.QFont('SansSerif', 20))
 
-        qbtn3 = QPushButton('Function button3', self)
-        qbtn3.clicked.connect(self.button3)
-        qbtn3.move(60, 140)
+        patternCombo = QComboBox(self)
+        patternCombo.resize(100, 25)
+        patternCombo.move(150, 55)
+        patternCombo.addItems(patternlist)
 
-        qbtn4 = QPushButton('Function button4', self)
-        qbtn4.clicked.connect(self.button4)
-        qbtn4.move(60, 170)
+        pattern_acceptButton = QPushButton('√', self)
+        pattern_acceptButton.clicked.connect(self.button1)
+        pattern_acceptButton.move(270, 55)
+        pattern_acceptButton.resize(26, 26)
 
-        combo = QComboBox(self)
-        combo.move(60, 80)
-        combo.addItems(x)
+
+        self.groupLabel = QLabel(self)
+        self.groupLabel.setText('Group: ')
+        self.groupLabel.move(5, 190)
+        self.groupLabel.resize(125, 32)
+        self.groupLabel.setAlignment(Qt.AlignRight)
+        self.groupLabel.setFont(QtGui.QFont('SansSerif', 20))
+
+        groupCombo = QComboBox(self)
+        groupCombo.move(150, 200)
+        groupCombo.addItems(grouplist)
+        groupCombo.resize(100, 25)
+
+        group_acceptButton = QPushButton('√', self)
+        group_acceptButton.clicked.connect(self.button2)
+        group_acceptButton.move(270, 200)
+        group_acceptButton.resize(26, 26)
+
+
+        printButton = QPushButton('Function button3', self)
+        printButton.clicked.connect(self.button3)
+        printButton.resize(600, 120)
+        printButton.move(20, 340)
+
         
-        qbtn5 = QPushButton('Выход', self)
-        qbtn5.clicked.connect(QCoreApplication.instance().quit)
-        qbtn5.move(60, 200)
+        # qbtn5 = QPushButton('Выход', self)
+        # qbtn5.clicked.connect(QCoreApplication.instance().quit)
+        # qbtn5.move(60, 200)
 
 
-
-        #self.setGeometry(300, 300, 250, 150)
-        self.setWindowTitle('Пульт управления TEM-камерой')
-        # привязка к разрешению экрана
-        desktop = QApplication.desktop()
-        screen01 = desktop.primaryScreen() # у меня 2 монитора, определяем главный
-        # получаем разрешение нужного монитора
-        res = desktop.screenGeometry(screen01)
-        # устанавливаем размер откна по размеру монитора
-        self.setFixedSize(res.width(), res.height())
-        # перемещаем окно чтобы оно заняло весь монитор
-        self.move(0, 0)
+        self.setWindowTitle('AuroraBorealis: Печать дипломов')
+        self.setFixedSize(640, 480)
+        # self.move(0, 0)
         self.show()
 
 
