@@ -13,6 +13,7 @@ from PyQt5.QtCore import QSize
 import time
 import serial
 import serial.tools.list_ports
+from WordTemplate.WordTemplate import wordTemplate
 
 patternlist = ['Базовый', 'Проектный']
 grouplist = ['Космо', 'Робо', 'Био', 'Жора', 'etc.']
@@ -37,6 +38,8 @@ class Example(QWidget):
         self.commandLabel.clear()
         self.commandLabel.setText("3.\n")
         self.printedLable.setText("Напечатано дипломов: i")
+        wordTemplate()
+        self.printedLable.setText("Напечатано дипломов: RDY")
 
 
     def initUI(self):
