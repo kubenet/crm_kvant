@@ -61,11 +61,14 @@ def wordTemplate():
 
     del single_diploma[0]
 
-    def combine_all_docx(filename_master, files_list):
+    def combineDocx(filename_master=Path('diplomas/diploma_0.docx'), files_list=single_diploma):
         number_of_sections = len(files_list)
         master = Document_compose(filename_master)
         composer = Composer(master)
         for i in range(0, number_of_sections):
             doc_temp = Document_compose(files_list[i])
             composer.append(doc_temp)
-        composer.save(r"C:\Users\Student.QUANTORIUM70\Documents\document\combined_file.docx")
+        composer.save("combined_file.docx")
+
+    combineDocx()
+
