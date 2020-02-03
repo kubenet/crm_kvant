@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import os
 from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QComboBox, QLabel
 from PyQt5.QtCore import QCoreApplication, Qt
 from PyQt5 import QtGui
@@ -13,6 +14,7 @@ from PyQt5.QtCore import QSize
 import time
 import serial
 import serial.tools.list_ports
+from pathlib import Path
 from WordTemplate.WordTemplate import wordTemplate
 
 patternlist = ['Базовый', 'Проектный']
@@ -37,9 +39,9 @@ class Example(QWidget):
     def button3(self):
         self.commandLabel.clear()
         self.commandLabel.setText("3.\n")
-        self.printedLable.setText("Напечатано дипломов: i")
         wordTemplate()
-        self.printedLable.setText("Напечатано дипломов: RDY")
+        i = str(len(os.listdir(Path("diplomas"))))
+        self.printedLable.setText("Напечатано дипломов: " + i)
 
 
     def initUI(self):
@@ -87,7 +89,7 @@ class Example(QWidget):
 
         self.printedLable = QLabel(self)
         self.printedLable.move(20, 280)
-        self.printedLable.resize(360, 34)
+        self.printedLable.resize(480, 34)
         self.printedLable.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
 
