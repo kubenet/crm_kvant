@@ -20,6 +20,23 @@ def wordTemplate():
         for file in os.listdir(lists_path):
             spiski.append(file)
 
+    # def otchestvo():
+    #     list_line = list(line)
+    #     fio_len = len(list_line)
+    #     del list_line[fio_len - 1]
+    #     fio_len -= 1
+    #     print(fio_len)
+    #     ending = line[fio_len - 2:fio_len]
+    #     print(list_line, ending)
+    #     if ending == 'ич':
+    #         print('male')
+    #         return 'прошел'
+    #     elif ending == 'на':
+    #         print('female')
+    #         return 'прошла'
+    #     else:
+    #         print('TROUBLES WITH ' + line)
+
     class Config:
         config = configparser.ConfigParser()
         config.read('config.ini', encoding='UTF-8')
@@ -50,7 +67,8 @@ def wordTemplate():
                        'date2': Config.date2,
                        'kvant': str(prog),
                        'director': Config.director,
-                       'year': Config.year}
+                       'year': Config.year,
+                       'completed': otchestvo()}
             doc.render(context)
             doc.save("diploma_" + str(i) + ".docx")
             shutil.move("diploma_" + str(i) + ".docx", "diplomas")
