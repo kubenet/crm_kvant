@@ -20,22 +20,18 @@ def wordTemplate():
         for file in os.listdir(lists_path):
             spiski.append(file)
 
-    # def otchestvo():
-    #     list_line = list(line)
-    #     fio_len = len(list_line)
-    #     del list_line[fio_len - 1]
-    #     fio_len -= 1
-    #     print(fio_len)
-    #     ending = line[fio_len - 2:fio_len]
-    #     print(list_line, ending)
-    #     if ending == 'ич':
-    #         print('male')
-    #         return 'прошел'
-    #     elif ending == 'на':
-    #         print('female')
-    #         return 'прошла'
-    #     else:
-    #         print('TROUBLES WITH ' + line)
+    def otchestvo():
+        list_line = list(line)
+        fio_len = len(list_line)
+        del list_line[fio_len - 1]
+        fio_len -= 1
+        ending = line[fio_len - 2:fio_len]
+        if ending == 'ич':
+            return 'прошел'
+        elif ending == 'на':
+            return 'прошла'
+        else:
+            print(f, ': TROUBLES WITH ' + line)
 
     class Config:
         config = configparser.ConfigParser()
@@ -86,7 +82,6 @@ def wordTemplate():
         for i in range(0, number_of_sections):
             doc_temp = Document_compose(files_list[i])
             composer.append(doc_temp)
-        composer.save("combined_file.docx")
+        composer.save(prog + ".docx")
 
     combineDocx()
-

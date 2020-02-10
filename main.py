@@ -18,7 +18,7 @@ from pathlib import Path
 from WordTemplate.WordTemplate import wordTemplate
 
 patternlist = ['Базовый', 'Проектный']
-grouplist = ['Космо', 'Робо', 'Био', 'Жора', 'etc.']
+grouplist = os.listdir('lists')
 
 
 class Example(QWidget):
@@ -36,9 +36,10 @@ class Example(QWidget):
         self.commandLabel.clear()
         self.commandLabel.setText("Func num 2.\n")
 
+
     def button3(self):
         self.commandLabel.clear()
-        self.commandLabel.setText("3.\n")
+        self.commandLabel.setText("Дипломы успешно напечатаны...")
         wordTemplate()
         i = str(len(os.listdir(Path("diplomas"))))
         self.printedLable.setText("Напечатано дипломов: " + i)
@@ -79,11 +80,11 @@ class Example(QWidget):
         groupCombo = QComboBox(self)
         groupCombo.move(135, 200)
         groupCombo.addItems(grouplist)
-        groupCombo.resize(100, 25)
+        groupCombo.resize(420, 25)
 
         group_acceptButton = QPushButton('√', self)
         group_acceptButton.clicked.connect(self.button2)
-        group_acceptButton.move(255, 200)
+        group_acceptButton.move(580, 200)
         group_acceptButton.resize(26, 26)
 
 
