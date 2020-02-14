@@ -7,7 +7,7 @@ from docxcompose.composer import Composer
 from docx import Document as Document_compose
 
 
-def wordTemplate():
+def wordTemplateCombine(group, pattern):
     i = 0
     single_diploma = []
 
@@ -44,34 +44,41 @@ def wordTemplate():
     spisok()
     shutil.rmtree("diplomas", ignore_errors=True)
     os.mkdir("diplomas")
-    for gruppa in spiski:
-        f = open(lists_path / gruppa, 'r', encoding='UTF-8')
-        prog = f.readline()
-        name_len = len(prog)
-        for line in f:
-            if name_len < 85:
-                doc = DocxTemplate(pattern_path / 'base_1.docx')
-            elif (name_len > 84) and (name_len < 127):
-                doc = DocxTemplate(pattern_path / 'base_2.docx')
-            elif (name_len > 126) and (name_len < 161):
-                doc = DocxTemplate(pattern_path / 'base_3.docx')
-            elif name_len > 161:
-                doc = DocxTemplate(pattern_path / 'base_4.docx')
 
-            context = {'fio': line,
-                       'date1': Config.date1,
-                       'date2': Config.date2,
-                       'kvant': str(prog),
-                       'director': Config.director,
-                       'year': Config.year,
-                       'completed': otchestvo()}
-            doc.render(context)
-            doc.save("diploma_" + str(i) + ".docx")
-            shutil.move("diploma_" + str(i) + ".docx", "diplomas")
-            diploma_path = Path('diplomas/diploma_' + str(i) + '.docx')
-            single_diploma.append(diploma_path)
-            i += 1
-        f.close()
+    f = open(lists_path / group, 'r', encoding='UTF-8')
+    prog = f.readline()
+    name_len = len(prog)
+    for line in f:
+        if pattern == 'base' or 'project':
+            if name_len < 85:
+                patternName = pattern + '_1.docx'
+                doc = DocxTemplate(pattern_path / patternName)
+            elif (name_len > 84) and (name_len < 127):
+                patternName = pattern + '_2.docx'
+                doc = DocxTemplate(pattern_path / patternName)
+            elif (name_len > 126) and (name_len < 161):
+                patternName = pattern + '_3.docx'
+                doc = DocxTemplate(pattern_path / patternName)
+            elif name_len > 161:
+                patternName = pattern + '_4.docx'
+                doc = DocxTemplate(pattern_path / patternName)
+        else:
+            doc = DocxTemplate(pattern_path / pattern + '.docx')
+
+        context = {'fio': line,
+                   'date1': Config.date1,
+                   'date2': Config.date2,
+                   'kvant': str(prog),
+                   'director': Config.director,
+                   'year': Config.year,
+                   'completed': otchestvo()}
+        doc.render(context)
+        doc.save("diploma_" + str(i) + ".docx")
+        shutil.move("diploma_" + str(i) + ".docx", "diplomas")
+        diploma_path = Path('diplomas/diploma_' + str(i) + '.docx')
+        single_diploma.append(diploma_path)
+        i += 1
+    f.close()
 
     del single_diploma[0]
 

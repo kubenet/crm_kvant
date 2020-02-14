@@ -1,3 +1,3 @@
-1. Доделать PatternBox и GroupBox
+1. Проверить WordTemplateCombine (доделать)
 2. Сделать ExcelTemplate (like WordTemplate,  но берет данные из Excel)
 3. Сделать, чтобы в программе отображался выбранный список детей, у каждого Checkbox, для отправки на печать

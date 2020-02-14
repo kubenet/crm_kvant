@@ -15,9 +15,10 @@ import time
 import serial
 import serial.tools.list_ports
 from pathlib import Path
-from WordTemplate.WordTemplate import wordTemplate
+from WordTemplate.WordTemplateCombine import wordTemplateCombine
+from WordTemplate.WordTemplateRapid import wordTemplateRapid
 
-patternlist = ['Базовый', 'Проектный']
+patternlist = ['base', 'project']
 grouplist = os.listdir('lists')
 
 
@@ -29,18 +30,24 @@ class Example(QWidget):
         self.initUI()
 
     def button1(self):
+        global pattern
         self.commandLabel.clear()
-        self.commandLabel.setText("There is function numba uan.\n")
+        pattern = self.patternCombo.currentText()
+        self.commandLabel.setText("Pattern " + pattern + " has succesfully set...")
+        print(self.patternCombo.currentText())
 
     def button2(self):
+        global group
         self.commandLabel.clear()
-        self.commandLabel.setText("Func num 2.\n")
+        group = self.groupCombo.currentText()
+        self.commandLabel.setText("Group " + group + " has succesfully set...")
+        print(self.groupCombo.currentText())
 
 
     def button3(self):
         self.commandLabel.clear()
         self.commandLabel.setText("Дипломы успешно напечатаны...")
-        wordTemplate()
+        wordTemplateRapid(group=group, pattern=pattern)
         i = str(len(os.listdir(Path("diplomas"))))
         self.printedLable.setText("Напечатано дипломов: " + i)
 
@@ -48,7 +55,7 @@ class Example(QWidget):
     def initUI(self):
         self.commandLabel = QLabel(self)
         self.commandLabel.setText("Command line. Program started...")
-        self.commandLabel.setAlignment(Qt.AlignRight | Qt.AlignCenter)
+        self.commandLabel.setAlignment(Qt.AlignRight)
         self.commandLabel.resize(635, 25)
 
 
@@ -59,10 +66,10 @@ class Example(QWidget):
         self.patternLabel.setAlignment(Qt.AlignRight)
         self.patternLabel.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
-        patternCombo = QComboBox(self)
-        patternCombo.resize(100, 25)
-        patternCombo.move(135, 55)
-        patternCombo.addItems(patternlist)
+        self.patternCombo = QComboBox(self)
+        self.patternCombo.resize(100, 25)
+        self.patternCombo.move(135, 55)
+        self.patternCombo.addItems(patternlist)
 
         pattern_acceptButton = QPushButton('√', self)
         pattern_acceptButton.clicked.connect(self.button1)
@@ -77,10 +84,10 @@ class Example(QWidget):
         self.groupLabel.setAlignment(Qt.AlignRight)
         self.groupLabel.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
-        groupCombo = QComboBox(self)
-        groupCombo.move(135, 200)
-        groupCombo.addItems(grouplist)
-        groupCombo.resize(420, 25)
+        self.groupCombo = QComboBox(self)
+        self.groupCombo.move(135, 200)
+        self.groupCombo.addItems(grouplist)
+        self.groupCombo.resize(420, 25)
 
         group_acceptButton = QPushButton('√', self)
         group_acceptButton.clicked.connect(self.button2)
