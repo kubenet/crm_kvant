@@ -9,11 +9,9 @@ from PyQt5 import QtGui
 from PyQt5 import QtCore
 from PyQt5.Qt import QApplication, QClipboard
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QWidget, QPlainTextEdit
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPlainTextEdit, QCheckBox
 from PyQt5.QtCore import QSize
 import time
-import serial
-import serial.tools.list_ports
 from pathlib import Path
 from WordTemplate.WordTemplateCombine import wordTemplateCombine
 from WordTemplate.WordTemplateRapid import wordTemplateRapid
@@ -46,24 +44,28 @@ class Example(QWidget):
 
     def button3(self):
         self.commandLabel.clear()
-        self.commandLabel.setText("Дипломы успешно напечатаны...")
-        wordTemplateRapid(group=group, pattern=pattern)
+        print(self.templateBox.isChecked())
+        if self.templateBox.isChecked():
+            wordTemplateCombine(group=group, pattern=pattern)
+        else:
+            wordTemplateRapid(group=group, pattern=pattern)
         i = str(len(os.listdir(Path("diplomas"))))
-        self.printedLable.setText("Напечатано дипломов: " + i)
+        self.printedLable.setText("Подготовлено дипломов: " + i)
+        self.commandLabel.setText("Дипломы успешно напечатаны...")
 
 
     def initUI(self):
         self.commandLabel = QLabel(self)
         self.commandLabel.setText("Command line. Program started...")
         self.commandLabel.setAlignment(Qt.AlignRight)
-        self.commandLabel.resize(635, 25)
+        self.commandLabel.move(0, 2)
+        self.commandLabel.resize(1147, 25)
 
 
         self.patternLabel = QLabel(self)
         self.patternLabel.setText('Pattern: ')
-        self.patternLabel.move(5, 45)
+        self.patternLabel.move(15, 45)
         self.patternLabel.resize(125, 32)
-        self.patternLabel.setAlignment(Qt.AlignRight)
         self.patternLabel.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
         self.patternCombo = QComboBox(self)
@@ -79,32 +81,35 @@ class Example(QWidget):
 
         self.groupLabel = QLabel(self)
         self.groupLabel.setText('Group: ')
-        self.groupLabel.move(5, 190)
+        self.groupLabel.move(15, 120)
         self.groupLabel.resize(125, 32)
-        self.groupLabel.setAlignment(Qt.AlignRight)
         self.groupLabel.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
         self.groupCombo = QComboBox(self)
-        self.groupCombo.move(135, 200)
+        self.groupCombo.move(135, 130)
         self.groupCombo.addItems(grouplist)
         self.groupCombo.resize(420, 25)
 
         group_acceptButton = QPushButton('√', self)
         group_acceptButton.clicked.connect(self.button2)
-        group_acceptButton.move(580, 200)
+        group_acceptButton.move(580, 130)
         group_acceptButton.resize(26, 26)
 
 
         self.printedLable = QLabel(self)
-        self.printedLable.move(20, 280)
+        self.printedLable.move(20, 400)
         self.printedLable.resize(480, 34)
         self.printedLable.setFont(QtGui.QFont('SansSerif', 20, QtGui.QFont.Bold))
 
 
-        printButton = QPushButton('Function button3', self)
+        printButton = QPushButton('Подготовить дипломы', self)
         printButton.clicked.connect(self.button3)
         printButton.resize(600, 120)
-        printButton.move(20, 340)
+        printButton.move(15, 465)
+
+        self.templateBox = QCheckBox('Сохранить дипломы в 1 файл?', self)
+        self.templateBox.move(15, 200)
+        self.templateBox.setFont(QtGui.QFont('SansSerif', 16, QtGui.QFont.Bold))
 
         
         # qbtn5 = QPushButton('Выход', self)
@@ -113,7 +118,7 @@ class Example(QWidget):
 
 
         self.setWindowTitle('AuroraBorealis: Печать дипломов')
-        self.setFixedSize(640, 480)
+        self.setFixedSize(1152, 600)
         # self.move(0, 0)
         self.show()
 

@@ -89,6 +89,6 @@ def wordTemplateCombine(group, pattern):
         for i in range(0, number_of_sections):
             doc_temp = Document_compose(files_list[i])
             composer.append(doc_temp)
-        composer.save(prog + ".docx")
+        composer.save("combined_file.docx")
 
     combineDocx()
