@@ -18,6 +18,8 @@ from WordTemplate.WordTemplateRapid import wordTemplateRapid
 
 patternlist = ['base', 'project']
 grouplist = os.listdir('lists')
+pattern = 'base'
+group_check = False
 
 
 class Example(QWidget):
@@ -35,24 +37,27 @@ class Example(QWidget):
         print(self.patternCombo.currentText())
 
     def button2(self):
-        global group
+        global group, group_check
         self.commandLabel.clear()
         group = self.groupCombo.currentText()
         self.commandLabel.setText("Group " + group + " has succesfully set...")
         print(self.groupCombo.currentText())
+        group_check = True
 
 
     def button3(self):
         self.commandLabel.clear()
         print(self.templateBox.isChecked())
-        if self.templateBox.isChecked():
-            wordTemplateCombine(group=group, pattern=pattern)
+        if group_check:
+            if self.templateBox.isChecked():
+                wordTemplateCombine(group=group, pattern=pattern)
+            else:
+                wordTemplateRapid(group=group, pattern=pattern)
+            i = str(len(os.listdir(Path("diplomas"))))
+            self.printedLable.setText("Подготовлено дипломов: " + i)
+            self.commandLabel.setText("Дипломы успешно напечатаны...")
         else:
-            wordTemplateRapid(group=group, pattern=pattern)
-        i = str(len(os.listdir(Path("diplomas"))))
-        self.printedLable.setText("Подготовлено дипломов: " + i)
-        self.commandLabel.setText("Дипломы успешно напечатаны...")
-
+            self.printedLable.setText('Вы не выбрали group')
 
     def initUI(self):
         self.commandLabel = QLabel(self)
