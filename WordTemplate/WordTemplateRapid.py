@@ -5,6 +5,7 @@ import configparser
 import os
 from docxcompose.composer import Composer
 from docx import Document as Document_compose
+import openpyxl, openpyxl.utils
 
 
 def wordTemplateRapid(group, pattern):
@@ -23,15 +24,13 @@ def wordTemplateRapid(group, pattern):
     def otchestvo():
         list_line = list(line)
         fio_len = len(list_line)
-        del list_line[fio_len - 1]
-        fio_len -= 1
         ending = line[fio_len - 2:fio_len]
         if ending == 'ич':
             return 'прошел'
         elif ending == 'на':
             return 'прошла'
         else:
-            print(f, ': TROUBLES WITH ' + line)
+            print(prog, ': TROUBLES WITH ' + line)
 
     class Config:
         config = configparser.ConfigParser()
@@ -45,10 +44,14 @@ def wordTemplateRapid(group, pattern):
     shutil.rmtree("diplomas", ignore_errors=True)
     os.mkdir("diplomas")
 
-    f = open(lists_path / group, 'r', encoding='UTF-8')
-    prog = f.readline()
+    wb = openpyxl.load_workbook(lists_path / group)
+    sheet = wb.active
+    rows = sheet.max_row
+
+    prog = sheet.cell(row=1, column=1).value
     name_len = len(prog)
-    for line in f:
+
+    for row_num in range(2, rows + 1):
         if pattern == 'base' or 'project':
             if name_len < 85:
                 patternName = pattern + '_1.docx'
@@ -65,6 +68,10 @@ def wordTemplateRapid(group, pattern):
         else:
             doc = DocxTemplate(pattern_path / pattern + '.docx')
 
+        line = sheet.cell(row=row_num, column=1).value + ' ' + \
+               sheet.cell(row=row_num, column=2).value + ' ' + \
+               sheet.cell(row=row_num, column=3).value
+
         context = {'fio': line,
                    'date1': Config.date1,
                    'date2': Config.date2,
@@ -78,7 +85,5 @@ def wordTemplateRapid(group, pattern):
         diploma_path = Path('diplomas/diploma_' + str(i) + '.docx')
         single_diploma.append(diploma_path)
         i += 1
-    f.close()
 
     del single_diploma[0]
-
