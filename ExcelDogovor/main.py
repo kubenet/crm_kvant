@@ -31,11 +31,15 @@ class Example(QWidget):
         group = self.groupCombo.currentText()
         self.studentLabel.setText('Student: ')
         self.student_acceptButton.resize(26, 26)
+        self.studentCombo.clear()
         self.studentCombo.addItems(xlStudFiller(group))
         self.studentCombo.resize(400, 25)
         self.commandLabel.setText("Группа выбрана успешно...")
 
     def button3(self):
+        global student
+        student = self.studentCombo.currentText()
+        self.commandLabel.setText("Студент(ка) выбран(а) успешно...")
         pass
 
     def initUI(self):
