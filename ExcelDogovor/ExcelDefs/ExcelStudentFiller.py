@@ -2,10 +2,14 @@ from pathlib import Path
 import openpyxl, openpyxl.utils
 import datetime
 from docxtpl import DocxTemplate
+import pymorphy2
 
-lists_path = Path('lists')
 group = 'IT_project.xlsx'
 student = 'Золотарев Максим Василевьич'
+nametag = ['Surn', 'Name', 'Patr']
+morph = pymorphy2.MorphAnalyzer()
+
+lists_path = Path('lists')
 students = []
 
 
@@ -26,8 +30,17 @@ def xlStudProd(group, student):
     HOURS = ws['B12'].value
 
     ws = wb[student]
+
+    SEX = ws['B17'].value
+    STUDENT_NAME = ''
+    student = student.split()
+    for i, name in enumerate(student):
+        for j, p in enumerate(morph.parse(name)):
+            if nametag[i] in p.tag and SEX in p.tag:
+                STUDENT_NAME += morph.parse(name)[j].inflect({'accs'}).word + ' '
+
     TODAY = datetime.datetime.today().strftime("%d.%m.%Y")
-    FIO_Student = ws['B2'].value
+    FIO_Student = STUDENT_NAME.title()
     BIRTHDATE = ws['B4'].value
     YEARS = ws['C4'].value
     SCHOOL = ws['B5'].value
@@ -57,6 +70,7 @@ def xlStudProd(group, student):
                 'LIVING_ADRESS': LIVING_ADRESS}
     doc.render(context)
     doc.save("zayavlenie.docx")
+    print(BIRTHDATE)
 
 
 xlStudProd(group, student)
