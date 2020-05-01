@@ -4,13 +4,16 @@ import datetime
 from docxtpl import DocxTemplate
 import pymorphy2
 
-group = 'IT_project.xlsx'
-student = 'Золотарев Максим Василевьич'
 nametag = ['Surn', 'Name', 'Patr']
 morph = pymorphy2.MorphAnalyzer()
 
 lists_path = Path('lists')
+pattern_path = Path('Documents')
 students = []
+
+# group = 'IT_project.xlsx'
+# student = 'Золотарев Максим Василевьич'
+# pattern = 'zayavlenie_do_14_let_novaya_forma.docx'
 
 
 def xlStudFiller(group):
@@ -19,7 +22,7 @@ def xlStudFiller(group):
     return students
 
 
-def xlStudProd(group, student):
+def xlStudProd(group, student, pattern):
     wb = openpyxl.load_workbook(lists_path / group)
 
     ws = wb['GROUP_INFO']
@@ -51,7 +54,7 @@ def xlStudProd(group, student):
     PAR_PASS_PLACE = ws['B15'].value
     LIVING_ADRESS = ws['B16'].value
 
-    doc = DocxTemplate('zayavlenie_do_14_let_novaya_forma.docx')
+    doc = DocxTemplate(pattern_path / pattern)
     context =  {'SECTION': SECTION,
                 'GROUP_NAME': GROUP_NAME,
                 'DATE_START': DATE_START,
@@ -73,4 +76,4 @@ def xlStudProd(group, student):
     print(BIRTHDATE)
 
 
-xlStudProd(group, student)
+# xlStudProd(group, student, pattern)
